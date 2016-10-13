@@ -19,10 +19,10 @@
 ++   denominator, while the ``p-adic'' form expands each numerator
 ++   p-adically via the prime p in the denominator.  For computational
 ++   efficiency, the compact form is used, though the p-adic form may
-++   be gotten by calling the function \spadfunFrom{padicFraction}{PartialFraction}.  For a
-++   general euclidean domain, it is not known how to factor the
-++   denominator.  Thus the function \spadfunFrom{partialFraction}{PartialFraction} takes as its
-++   second argument an element of \spadtype{Factored(R)}.
+++   be gotten by calling the function \spadfunFrom{padicFraction}{PartialFraction}.
+++   For a general euclidean domain, it is not known how to factor the
+++   denominator.  Thus the function \spadfunFrom{partialFraction}{PartialFraction}
+++   requires an element of \spadtype{Factored(R)} as its second argument.
 
 PartialFraction(R : EuclideanDomain) : Cat == Capsule where
   FRR  ==> Factored R
@@ -79,8 +79,9 @@ PartialFraction(R : EuclideanDomain) : Cat == Capsule where
     padicFraction : % -> %
       ++ padicFraction(q) expands the fraction p-adically in the primes
       ++ \spad{p} in the denominator of \spad{q}. For example,
-      ++ \spad{padicFraction(3/(2^2)) = 1/2 + 1/(2^2)}.
-      ++ Use \spadfunFrom{compactFraction}{PartialFraction} to return to compact form.
+      ++ \spad{padicFraction(3/(2^2))$PartialFraction(Integer) = 1/2 + 1/(2^2)}.
+      ++ Use \spadfunFrom{compactFraction}{PartialFraction} to return the
+      ++ compact form.
 
     partialFraction : (R, FRR) -> %
       ++ partialFraction(numer, denom) is the main function for
@@ -368,22 +369,22 @@ PartialFractionPackage(R) : Cat == Capsule where
          df := factor(denom rf)$MultivariateFactorize(Symbol, INDE, R, PR)
          partialFraction(numer rf, df, v)
 
-      makeSup(p : PR, v : Symbol) : SparseUnivariatePolynomial FPR ==
+      makeSup(p : PR, v : Symbol) : SUP FPR ==
          up := univariate(p, v)
          map((z1 : PR) : FPR +-> z1::FPR, up
             )$UnivariatePolynomialCategoryFunctions2(PR, SUP PR, FPR, SUP FPR)
 
       partialFraction(p, facq, v) ==
-         up := UnivariatePolynomial(v, FPR)
-         fup := Factored up
-         ffact : List(Record(irr : up, pow : Integer))
-         ffact := [[makeSup(u.factor, v) pretend up, u.exponent]
+         UP := UnivariatePolynomial(v, FPR)
+         FUP := Factored UP
+         ffact : List(Record(irr : UP, pow : Integer))
+         ffact := [[makeSup(u.factor, v) pretend UP, u.exponent]
                       for u in factors facq]
-         fcont := makeSup(unit facq, v) pretend up
-         nflist : fup := fcont*(*/[primeFactor(ff.irr, ff.pow) for ff in ffact])
-         pfup := partialFraction(makeSup(p, v) pretend up, nflist
-                                )$PartialFraction(up)
-         coerce(pfup)$AnyFunctions1(PartialFraction up)
+         fcont := makeSup(unit facq, v) pretend UP
+         nflist : FUP := fcont*(*/[primeFactor(ff.irr, ff.pow) for ff in ffact])
+         pfup := partialFraction(makeSup(p, v) pretend UP, nflist
+                                )$PartialFraction(UP)
+         coerce(pfup)$AnyFunctions1(PartialFraction UP)
 
 --Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
 --All rights reserved.
