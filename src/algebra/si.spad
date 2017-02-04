@@ -172,17 +172,17 @@ SingleInteger() : Join(IntegerNumberSystem, ConvertibleTo String,
       ++ min() returns the smallest single integer.
 
    -- bit operations
-   "not":   % -> %
+   "not" : % -> %
       ++ not(n) returns the bit-by-bit logical {\em not} of the single integer n.
-   "~"  :   % -> %
+   "~" : % -> %
       ++  ~ n returns the bit-by-bit logical {\em not} of the single integer n.
-   "/\": (%, %) -> %
+   "/\" : (%, %) -> %
       ++ n /\ m  returns the bit-by-bit logical {\em and} of
       ++ the single integers n and m.
    "\/" : (%, %) -> %
       ++ n \/ m  returns the bit-by-bit logical {\em or} of
       ++ the single integers n and m.
-   "xor": (%, %) -> %
+   "xor" : (%, %) -> %
       ++ xor(n, m)  returns the bit-by-bit logical {\em xor} of
       ++ the single integers n and m.
    Not  : % -> %

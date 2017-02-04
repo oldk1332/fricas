@@ -14,7 +14,7 @@ SExpressionCategory(Str, Sym, Int, Flt) : Category == Decl where
     Str, Sym, Int, Flt : SetCategory
 
     Decl ==> SetCategory with
-        eq :        (%, %) -> Boolean
+        eq :   (%, %) -> Boolean
           ++ eq(s, t) is true if EQ(s, t) is true in Lisp.
         null? :     % -> Boolean
           ++ null?(s) is true if s is the S-expression ().

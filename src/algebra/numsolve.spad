@@ -486,25 +486,25 @@ FloatingComplexPackage(Par) : Cat == Cap where
 
     Cat == with
 
-       complexSolve :    (L FPK, Par) -> L L EQ P C Par
+       complexSolve : (L FPK, Par) -> L L EQ P C Par
          ++ complexSolve(lp, eps) finds all the complex solutions to
          ++ precision eps of the system lp of rational functions
          ++ over the complex rationals with respect to all the
          ++ variables appearing in lp.
 
-       complexSolve :    (L EQ FPK, Par) -> L L EQ P C Par
+       complexSolve : (L EQ FPK, Par) -> L L EQ P C Par
          ++ complexSolve(leq, eps) finds all the complex solutions
          ++ to precision eps of the system leq of equations
          ++ of rational functions over complex rationals
          ++ with respect to all the variables appearing in lp.
 
-       complexSolve :    (FPK, Par) -> L EQ P C Par
+       complexSolve : (FPK, Par) -> L EQ P C Par
          ++ complexSolve(p, eps) find all the complex solutions of the
          ++ rational function p with complex rational coefficients
          ++ with respect to all the variables appearing in p,
          ++ with precision eps.
 
-       complexSolve :    (EQ FPK, Par) ->  L EQ P C Par
+       complexSolve : (EQ FPK, Par) -> L EQ P C Par
          ++ complexSolve(eq, eps) finds all the complex solutions of the
          ++ equation eq of rational functions with rational rational coefficients
          ++ with respect to all the variables appearing in eq,

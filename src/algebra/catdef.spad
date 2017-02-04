@@ -359,7 +359,7 @@ DivisionRing() : Category ==
 ++ not necessarily commutative which has no zero divisors.
 ++
 ++ Axioms:
-++   \spad{ab=0 => a=0 or b=0}  -- known as noZeroDivisors
+++   \spad{a*b=0 => a=0 or b=0}  -- known as noZeroDivisors
 ++   \spad{not(1=0)}
 ++
 ++ Conditional attributes:
@@ -368,7 +368,7 @@ DivisionRing() : Category ==
 ++   canonicalsClosed\tab{20}the product of two canonicals is itself canonical
 EntireRing() : Category == Join(Ring, noZeroDivisors) with
     --operations
-      "exquo": (%,%) -> Union(%,"failed")
+      "exquo": (%, %) -> Union(%, "failed")
             ++ exquo(a, b) either returns an element c such that
             ++ \spad{c*b=a} or "failed" if no such element can be found.
       unitNormal : % -> Record(unit : %, canonical : %, associate : %)
@@ -767,8 +767,8 @@ GcdDomain() : Category == Join(IntegralDomain, LeftOreRing) with
 Group() : Category == Join(Monoid, unitsKnown) with
     --operations
       inv : % -> %               ++ inv(x) returns the inverse of x.
-      "/": (%,%) -> %           ++ x/y is the same as x times the inverse of y.
-      "^": (%,Integer) -> %    ++ x^n returns x raised to the integer power n.
+      "/" : (%, %) -> %          ++ x/y is the same as x times the inverse of y.
+      "^" : (%, Integer) -> %    ++ x^n returns x raised to the integer power n.
       conjugate : (%, %) -> %
         ++ conjugate(p, q) computes \spad{inv(q) * p * q}; this is 'right action
         ++ by conjugation'.
@@ -1055,7 +1055,7 @@ OrderedMonoid() : Category == Join(OrderedSemiGroup, Monoid)
 ++ operations are compatible with the ordering.
 ++
 ++ Axiom:
-++   \spad{0<a and b<c => ab< ac}
+++   \spad{0<a and b<c => a*b < a*c}
 
 OrderedRing() : Category == Join(OrderedAbelianGroup, Ring,
          CharacteristicZero) with
@@ -1098,13 +1098,13 @@ Comparable() : Category == SetCategory with
 ++ transitive and reflexive relation \spad{<=}.
 
 PartialOrder() : Category == with
-    "<": (%,%) -> Boolean
+    "<"  : (%, %) -> Boolean
       ++ x < y is a less than test.
-    ">":         (%, %) -> Boolean
+    ">"  : (%, %) -> Boolean
       ++ x > y is a greater than test.
-    ">=":        (%, %) -> Boolean
+    ">=" : (%, %) -> Boolean
       ++ x >= y is a greater than or equal test.
-    "<=":        (%, %) -> Boolean
+    "<=" : (%, %) -> Boolean
       ++ x <= y is a less than or equal test.
 
   add
@@ -1385,13 +1385,13 @@ SemiRing() : Category == Join(NonAssociativeSemiRing, SemiRng, Monoid)
 ++ and a semigroup, with multiplication distributing over addition.
 ++
 ++ Axioms:
-++   \spad{ x*(y+z) = x*y + x*z}
+++   \spad{ x*(y+z) = x*y + x*z }
 ++   \spad{ (x+y)*z = x*z + y*z }
 ++
 ++ Conditional attributes:
-++   \spadnoZeroDivisors\tab{25}\spad{  ab = 0 => a=0 or b=0}
+++   \spadnoZeroDivisors\tab{25}\spad{ a*b = 0 => a=0 or b=0 }
 Rng() : Category == Join(NonAssociativeRng, SemiRng) with
-      annihilate? : (%,%) -> Boolean
+      annihilate? : (%, %) -> Boolean
              ++ \spad{annihilate?(x,y)} holds when the product
              ++ of \spad{x} and \spad{y} is \spad{0}.
     add
@@ -1494,7 +1494,7 @@ UniqueFactorizationDomain() : Category == GcdDomain with
             ++ prime?(x) tests if x can never be written as the product of two
             ++ non-units of the ring,
             ++ i.e., x is an irreducible element.
-      squareFree    : % -> Factored(%)
+      squareFree : % -> Factored(%)
             ++ squareFree(x) returns the square-free factorization of x
             ++ i.e. such that the factors are pairwise relatively prime
             ++ and each has multiple prime factors.

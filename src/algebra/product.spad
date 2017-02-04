@@ -4,7 +4,7 @@
 ++  domains are both Finite then the resulting Product is also Finite
 ++  and can be enumerated via size(), index(), location(), etc.
 ++  The index of the second component (B) varies most quickly.
-Product (A : SetCategory, B : SetCategory) : C == T
+Product(A : SetCategory, B : SetCategory) : C == T
  where
   C == SetCategory  with
        if A has Finite and B has Finite then Finite

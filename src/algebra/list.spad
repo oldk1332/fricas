@@ -28,7 +28,7 @@ IndexedList(S : Type, mn : Integer) : Exports == Implementation where
 --   Those that are required
 --   CONS, EQ, NIL, NULL, QCAR, QCDR, RPLACA, RPLACD
 --   Those that are included for efficiency only
---   NEQ, LIST, CAR, CDR, NCONC2, NREVERSE, LENGTH
+--   LIST, CAR, CDR, NREVERSE, LENGTH
 --   Also REVERSE, since it's called in Polynomial Ring
 
  Qfirst  ==> QCAR$Lisp
@@ -430,7 +430,7 @@ ListToMap(A : SetCategory, B : Type) : Exports == Implementation where
       ++ The target of a source value \spad{x} in la is the
       ++ value y with the same index lb.
       ++ Error: if la and lb are not of equal length.
-    match : (LA, LB, B)    -> AB
+    match : (LA, LB, B) -> AB
       ++ match(la, lb, b) creates a map
       ++ defined by lists la and lb of equal length, where \spad{b} is used
       ++ as the default target value if the given function argument is
@@ -446,7 +446,7 @@ ListToMap(A : SetCategory, B : Type) : Exports == Implementation where
       ++ value y with the same index lb.
       ++ Argument b is the default target value if a is not in la.
       ++ Error: if la and lb are not of equal length.
-    match : (LA, LB, AB)    -> AB
+    match : (LA, LB, AB) -> AB
       ++ match(la, lb, f) creates a map
       ++ defined by lists la and lb of equal length.
       ++ The target of a source value \spad{x} in la is the

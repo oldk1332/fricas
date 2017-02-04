@@ -481,7 +481,7 @@ Dictionary(S : Type) : Category ==
                #s ~= #t => false
                every?((x : S) : Boolean +-> member?(x, t), parts s)
 
-           remove!(f : S->Boolean, t : %) ==
+           remove!(f : S -> Boolean, t : %) ==
                for m in parts t repeat if f m then remove!(m, t)
                t
 
