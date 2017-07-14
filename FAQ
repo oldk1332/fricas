@@ -14,8 +14,8 @@ Section 2 - Online resources
 
 Section 3 -
 
-3.1: How can one use FriCAS in a pipe?
-3.2: How can one use FriCAS in batch mode?
+3.1: How can I use FriCAS in a pipe?
+3.2: How can I use FriCAS in batch mode?
 3.3: How to find where an exported function is implemented?
 3.4: How can I customize FriCAS with an initialization file?
 
@@ -87,7 +87,7 @@ and in .xhtml form at:
 http://axiom-wiki.newsynthesis.org/JenksSutorInXhtml
 
 
-3.1: How one can use FriCAS in a pipe?
+3.1: How can I use FriCAS in a pipe?
 
 Currently trying to run plain 'fricas' command in a pipe hangs
 (this is a bug, but fix requires substantial change).
@@ -98,7 +98,7 @@ fricas -nosman < tst.input > tst.output
 Note: Similarly to command line pipe mode requires each function
 to be defined in a single line.
 
-3.2: How can one use FriCAS in batch mode?
+3.2: How can I use FriCAS in batch mode?
 
 Pass ')read file.input' in pipe mode like:
 
@@ -424,7 +424,7 @@ FAQ 25: Can I create or edit hypertex pages?
 The hypertex is intended to be edited by users. We are looking to
 build special purpose pages around courses such as linear algebra.
 
-Assume HERE=$AXIOM/doc/hypertex/pages
+Assume HERE=$AXIOM/share/hypertex/pages
 
 The text can be found in $HERE/foo.ht or $HERE/foo.pht
 
@@ -496,7 +496,7 @@ FAQ 33: How do I run hypertex standalone?
 ===================================================================
 
 export AXIOM=/whatever/mnt/linux
-export HTPATH=$AXIOM/doc/hypertex/pages
+export HTPATH=$AXIOM/share/hypertex/pages
 export PATH=$AXIOM/bin:$PATH
 hypertex
 
