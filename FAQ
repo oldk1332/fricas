@@ -17,6 +17,7 @@ Section 3 -
 3.1: How can one use FriCAS in a pipe?
 3.2: How can one use FriCAS in batch mode?
 3.3: How to find where an exported function is implemented?
+3.4: How can I customize FriCAS with an initialization file?
 
 Section 4 - User Interface
 
@@ -112,6 +113,15 @@ all parameters.  Then click on 'Operations' and then click on
 after clicking on 'Operations' click on an operation name and
 then click on 'Implementations'.
 
+3.4: How can I customize FriCAS with an initialization file?
+
+When FriCAS is launched, FriCAS tries to load file "./.fricas.input",
+if that file doesn't exist, FriCAS tries to load "~/.fricas.input".
+You can make FriCAS load different init file by environment variable
+'FRICAS_INITFILE'.  If the value of 'FRICAS_INITFILE' is null string,
+FriCAS will not load any init files.
+Note: FriCAS also tries to load ".axiom.input" for compatiblity.
+
 
 4.1: Clef does not work.  Is there an alternative?
 
@@ -157,7 +167,6 @@ FAQ 24: What is the purpose of the domain HACKPI?
 FAQ 25: Can I create or edit hypertex pages?
 FAQ 32: How can I input an equation as a string?
 FAQ 33: How can I run hypertex standalone?
-FAQ 35: Why do .axiom.input defined functions fail in axiom?
 FAQ 38: How can I debug algebra code?
 FAQ 39: How can I access lisp code from the Axiom command line?
 
@@ -490,64 +499,6 @@ export AXIOM=/whatever/mnt/linux
 export HTPATH=$AXIOM/doc/hypertex/pages
 export PATH=$AXIOM/bin:$PATH
 hypertex
-
-===================================================================
-FAQ 35: Why do .axiom.input defined functions fail in axiom?
-===================================================================
-You write this in your .axiom.input file:
-
-mrd(x:Integer,v:Integer):Integer == x+y
-
-You can't see this function even though it appears to be defined. That's
-because Axiom is working in a new frame.
-
-When you start AXIOMsys you are running the interpreter talking directly
-to the terminal. So the .input file is actually talking to a frame
-at the top level. Your function is defined.
-
-The .axiom.input file is read in a "frame" called "initial".
-AXIOMsys only uses the "initial" frame (although you can define and
-use new ones). A frame contains its own variables and function definitions.
-
-The "axiom" command does several things that AXIOMsys does not. In
-particular the axiom shell script starts up the 'sman' process which
-starts AXIOMsys (which reads the .axiom.input file) and then sman
-creates a new frame (usually a random lisp gensym name). In this new
-frame (created after .axiom.input is read) your mrandom function is
-not defined.
-
-To see this do:
-  AXIOMsys
-  mrandom(3,3,3)   -- compiles and runs the function
-  )quit
-
-Now do:
-  axiom
-  mrandom(3,3,3)   -- undefined function
-  )frame next
-  mrandom(3,3,3)   -- compiles and runs the function
-  )frame names     -- shows you all of the defined frames
-  )quit
-
-
-So with the axiom shell script the process is:
-  axiom
-    start sman                    (done by axiom shell script)
-      sman starts AXIOMsys        (done by sman)
-        create frame "initial"    (done by AXIOMsys)
-          read .axiom.input       (define your function here)
-        create frame "G00234"     (done by sman)
-          put up a command prompt (in frame G00234, no functions defined)
-        )frame next               (done by you)
-                        .... and now you're back in frame initial
-                        .... and your function is there
-
-
-So your function was read and it is defined. However the function got
-defined in the "initial" frame (because you defined it in the .axiom.input
-file) and is not known in the frame created by sman. The ")frame next"
-command will move you around the ring of frames. (See the hardcopy book
-on page 579).
 
 ===================================================================
 FAQ 38: How can I debug algebra code?
