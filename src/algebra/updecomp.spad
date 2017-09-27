@@ -29,11 +29,11 @@ UnivariatePolynomialDivisionPackage(R, UP) : Exports == Implementation where
       zero? p2 => error "divideIfCan: division by zero"
       ((lc := leadingCoefficient p2) = 1) => monicDivide(p1, p2)
       q : UP := 0
-      while not ((e := subtractIfCan(degree(p1),degree(p2))) case "failed")
+      while wrap?(e := subtractIfCan(degree(p1), degree(p2)))
        repeat
         c := leadingCoefficient(p1) exquo lc
         c case "failed" => return "failed"
-        ee := e::N
+        ee := unwrap e
         q := q+monomial(c::R, ee)
         p1 := p1 - c*mapExponents(x +-> x + ee, p2)
       [q, p1]
@@ -110,7 +110,7 @@ UnivariatePolynomialDecompositionPackage(R, UP) : Exports == Implementation wher
 
     rightFactorIfCan0(p : UP, dq : N, n : N, lcq : R) : Union(UP,"failed") ==
       dp := degree p
-      s := subtractIfCan(dq, 1)::N
+      s := unwrap subtractIfCan(dq, 1)
       lcp := leadingCoefficient p
       q : UP := monomial(lcq, dq)
       k : N
@@ -119,13 +119,13 @@ UnivariatePolynomialDecompositionPackage(R, UP) : Exports == Implementation wher
         i : N
         -- solves equation n*q1'*p1 - q1*p1' = 0 mod x^(k+1)
         -- where q1 and p1 are p and q in reverse order
-        for i in 0..subtractIfCan(k, 1)::N repeat
+        for i in 0..unwrap(subtractIfCan(k, 1)) repeat
          c := c+(k::R-(n::R+1)*(i::R))*
-          coefficient(q, subtractIfCan(dq, i)::N)*
-           coefficient(p, subtractIfCan(dp+i, k)::N)
+          coefficient(q, unwrap subtractIfCan(dq, i))*
+           coefficient(p, unwrap subtractIfCan(dp+i, k))
         cquo := c exquo ((k*n)::R*lcp)
         cquo case "failed" => return "failed"
-        q := q+monomial(cquo::R, subtractIfCan(dq, k)::N)
+        q := q+monomial(cquo::R, unwrap subtractIfCan(dq, k))
       q
 
     char_R : N := characteristic()$R
@@ -194,7 +194,7 @@ UnivariatePolynomialDecompositionPackage(R, UP) : Exports == Implementation wher
     monicDecomposeIfCan f ==
       df := degree f
       zero? df => "failed"
-      for dh in 2..subtractIfCan(df, 1)::N | zero?(df rem dh) repeat
+      for dh in 2..unwrap(subtractIfCan(df, 1)) | zero?(df rem dh) repeat
         h := monicRightFactorIfCan(f, dh)
         h case UP =>
          g := leftFactorIfCan(f, h::UP)

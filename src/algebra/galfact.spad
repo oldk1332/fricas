@@ -928,7 +928,7 @@ GaloisGroupFactorizer(UP) : Exports == Implementation where
         for i in 1..#lg repeat
           g := lg.i
           dgh := (degree g)*dh
-          df := subtractIfCan(df, dgh)::N
+          df := unwrap subtractIfCan(df, dgh)
           lfg := btwFactor(g(lrf.right),
            select(x+->x<=dgh, d), max(2, r-df)::N, false)
           lf := append(lf, lfg)
@@ -1063,7 +1063,7 @@ GaloisGroupFactorizer(UP) : Exports == Implementation where
         f := monicDivide(f, monomial(1, maxd)).quotient
         factorlist := [[monomial(1, 1), maxd]$ParFact]
         r := max(2, r-maxd)::N
-        d := subtractIfCan(d, maxd)::N
+        d := unwrap subtractIfCan(d, maxd)
         fd := select(x+->x<=d, fd)
 
       -- is f constant?

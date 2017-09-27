@@ -642,7 +642,7 @@ OrientedFacet() : Exports == Impl where
            return wordIn
        res := []$List(List(Boolean))
        if numZeros > 0 then
-           z : NNI := subtractIfCan(numZeros, 1)::NNI
+           z : NNI := unwrap subtractIfCan(numZeros, 1)
            word0 := []$List(List(Boolean))
            if empty?(wordIn) then word0 := [[false]]
            for x in wordIn repeat
@@ -650,7 +650,7 @@ OrientedFacet() : Exports == Impl where
                word0 := concat(word0, subWord)
            res := concat(res, boolWordPermute(word0, z, numOnes))
        if numOnes > 0 then
-           z : NNI := subtractIfCan(numOnes, 1)::NNI
+           z : NNI := unwrap subtractIfCan(numOnes, 1)
            word1 := []$List(List(Boolean))
            if empty?(wordIn) then word1 := [[true]]
            for x in wordIn repeat
@@ -674,8 +674,8 @@ OrientedFacet() : Exports == Impl where
        res := []$List(ProductFacet)
        indA : List(NNI) := getIndexes(a)
        indB : List(NNI) := getIndexes(b)
-       lenA : NNI := subtractIfCan(#indA, 1)::NNI
-       lenB : NNI := subtractIfCan(#indB, 1)::NNI
+       lenA : NNI := unwrap subtractIfCan(#indA, 1)
+       lenB : NNI := unwrap subtractIfCan(#indB, 1)
        perms : List(List(Boolean)) := reverse(boolWordPermute(lenA, lenB))
        --print("product perms=" << perms)
        for perm in perms repeat
@@ -2075,7 +2075,7 @@ FiniteSimplicialComplex(VS : AbelianGroup) : Exports == Impl where
        rst : List(Integer) := lst.rest
        -- len can never be negative due to the tests
        -- at the start of this function.
-       for x in orderedPermutation(rst, subtractIfCan(len, 1)::NNI) repeat
+       for x in orderedPermutation(rst, unwrap subtractIfCan(len, 1)) repeat
            r1 : List(Integer) := concat(fst, x)
            -- r1 holds a permutations starting with fst
            reslt := concat(reslt, r1)
@@ -2389,8 +2389,8 @@ FiniteSimplicialComplex(VS : AbelianGroup) : Exports == Impl where
            inds2 := []$List(NNI)
            mul : Integer := getMult(x)
            for y in inds repeat
-               l : NNI := subtractIfCan(y.left, 1)::NNI
-               r : NNI := subtractIfCan(y.right, 1)::NNI
+               l : NNI := unwrap subtractIfCan(y.left, 1)
+               r : NNI := unwrap subtractIfCan(y.right, 1)
                newIndex : NNI := l*dimb + r + 1
                --newIndex : NNI := (r + (dima - l)*dimb)pretend NNI
                inds2 := concat(inds2, newIndex)$List(NNI)

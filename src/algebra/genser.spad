@@ -318,10 +318,9 @@ GeneralizedUnivariatePowerSeries(Coef : Ring,
         exquo1(x : %, y : %, cyinv : Coef, ky : Expon) : % == delay
             empty?(x) => empty()
             tx : Term := frst(x)
-            -- (dkiu : Union(Expon, "failed") := subtractIfCan(tx.k, ky)$Expon)
-            (dkiu := subtractIfCan(tx.k, ky)$Expon)
-               case "failed" => error "cannot subtract exponents"
-            dki := dkiu::Expon
+            failed?(dkiu := subtractIfCan(tx.k, ky)$Expon) =>
+                error "cannot subtract exponents"
+            dki := unwrap dkiu
             ci := cyinv*tx.c
             concat([dki, ci],
                    exquo1(rst(x) - monomial(ci, dki)*rst(y), y, cyinv, ky))
@@ -340,7 +339,7 @@ GeneralizedUnivariatePowerSeries(Coef : Ring,
                 n > 1000 => return "failed"
                 empty? x => return empty()
                 tx := frst(x)
-                subtractIfCan(tx.k, ky) case Expon => break
+                wrap? subtractIfCan(tx.k, ky) => break
                 not(tx.c = 0) => return "failed"
                 x := rst(x)
             exquo1(x, y, cyinv::Coef, ky)

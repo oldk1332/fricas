@@ -91,7 +91,7 @@ SmallOrdinal : Join(OrderedAbelianMonoid, SemiRing, CancellationAbelianMonoid,
         ground(p)
 
     limitPart(o : %) : % ==
-        subtractIfCan(o, integerPart(o)::%)::%
+        unwrap subtractIfCan(o, integerPart(o)::%)
 
     ordinalMul(o1 : %, o2 : %) : % ==
         e := degree(o1::Rep)

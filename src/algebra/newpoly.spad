@@ -99,8 +99,8 @@ NewSparseUnivariatePolynomial(R) : Exports == Implementation where
                 e := yy.first.k; y := per(yy.rest)
                 -- while (not empty? xx) repeat
                 repeat
-                  if (u := subtractIfCan(xx.first.k,e)) case "failed" then break
-                  xx := rep fmecg(per rest(xx), u, xx.first.c, y)
+                  if failed?(u := subtractIfCan(xx.first.k,e)) then break
+                  xx := rep fmecg(per rest(xx), unwrap u, xx.first.c, y)
                   if empty? xx then break
                 per xx
 
@@ -113,8 +113,8 @@ NewSparseUnivariatePolynomial(R) : Exports == Implementation where
                 empty? xx => [x, co, 0]
                 pow : NNI := 0; e := yy.first.k; y := per(yy.rest);
                 repeat
-                  if (u := subtractIfCan(xx.first.k,e)) case "failed" then break
-                  xx := rep fmecg(co * per rest(xx), u, xx.first.c, y)
+                  if failed?(u := subtractIfCan(xx.first.k, e)) then break
+                  xx := rep fmecg(co * per rest(xx), unwrap u, xx.first.c, y)
                   pow := pow + 1
                   if empty? xx then break
                 [per xx, co, pow]
@@ -130,8 +130,8 @@ NewSparseUnivariatePolynomial(R) : Exports == Implementation where
                 (co = -1) => - monicModulo(-x, -y)
                 xx := rep x; e := yy.first.k; y := per(yy.rest)
                 repeat
-                  if (u := subtractIfCan(xx.first.k,e)) case "failed" then break
-                  xx := rep fmecg(co * per rest(xx), u, xx.first.c, y)
+                  if failed?(u := subtractIfCan(xx.first.k, e)) then break
+                  xx := rep fmecg(co * per rest(xx), unwrap u, xx.first.c, y)
                   if empty? xx then break
                 per xx
 
@@ -143,13 +143,13 @@ NewSparseUnivariatePolynomial(R) : Exports == Implementation where
                 yy := rep y; e := yy.first.k;
                 xx : Rep := rep x; co := yy.first.c
                 (empty? xx) or (xx.first.k < e) => [co, 0, 0, x]
-                pow : NNI := subtractIfCan(xx.first.k, e)::NNI + 1
+                pow : NNI := unwrap subtractIfCan(xx.first.k, e) + 1
                 qq : Rep := []; y := per(yy.rest)
                 repeat
-                  if (u := subtractIfCan(xx.first.k,e)) case "failed" then break
-                  qq := cons([u::NNI, xx.first.c]$Term, rep (co * per qq))
-                  xx := rep fmecg(co * per rest(xx), u, xx.first.c, y)
-                  pow := subtractIfCan(pow, 1)::NNI
+                  if failed?(u := subtractIfCan(xx.first.k, e)) then break
+                  qq := cons([unwrap u, xx.first.c]$Term, rep (co * per qq))
+                  xx := rep fmecg(co * per rest(xx), unwrap u, xx.first.c, y)
+                  pow := unwrap subtractIfCan(pow, 1)::NNI
                   if empty? xx then break
                 [co, pow, per reverse qq, per xx]
 
@@ -162,9 +162,9 @@ NewSparseUnivariatePolynomial(R) : Exports == Implementation where
                 (empty? xx) or (xx.first.k < e) => 0
                 qq : Rep := []; co := yy.first.c; y := per(yy.rest)
                 repeat
-                  if (u := subtractIfCan(xx.first.k,e)) case "failed" then break
-                  qq := cons([u::NNI, xx.first.c]$Term, rep (co * per qq))
-                  xx := rep fmecg(co * per rest(xx), u, xx.first.c, y)
+                  if failed?(u := subtractIfCan(xx.first.k, e)) then break
+                  qq := cons([unwrap u, xx.first.c]$Term, rep (co * per qq))
+                  xx := rep fmecg(co * per rest(xx), unwrap u, xx.first.c, y)
                   if empty? xx then break
                 per reverse qq
 

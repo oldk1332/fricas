@@ -616,9 +616,9 @@ PolynomialRing(R : Join(SemiRng, AbelianMonoid), E : OrderedAbelianMonoid
                   (a := p1.first.c exquo p2.first.c)
                   a case "failed" => return "failed"
                   ee := subtractIfCan(p1.first.k, p2.first.k)
-                  ee case "failed" => return "failed"
-                  p1 := fmecg(p1.rest, ee, a, p2.rest)
-                  rout := cons([ee, a], rout)
+                  failed? ee => return "failed"
+                  p1 := fmecg(p1.rest, unwrap ee, a, p2.rest)
+                  rout := cons([unwrap ee, a], rout)
                empty?(p1) => reverse!(rout)::%
                "failed"
            else -- R not Approximate
@@ -631,9 +631,9 @@ PolynomialRing(R : Join(SemiRng, AbelianMonoid), E : OrderedAbelianMonoid
                   (a := p1.first.c exquo p2.first.c)
                   a case "failed" => return "failed"
                   ee := subtractIfCan(p1.first.k, p2.first.k)
-                  ee case "failed" => return "failed"
-                  p1 := fmecg(p1.rest, ee, a, p2.rest)
-                  rout := cons([ee, a], rout)
+                  failed? ee => return "failed"
+                  p1 := fmecg(p1.rest, unwrap ee, a, p2.rest)
+                  rout := cons([unwrap ee, a], rout)
                empty?(p1) => reverse!(rout)::%
                "failed"
 
@@ -740,10 +740,10 @@ SparseUnivariatePolynomial(R : Join(SemiRng, AbelianMonoid)
        t := first lowp
        if t.k < n then break
        lowp := rest lowp
-       highp := cons([subtractIfCan(t.k, n)::NonNegativeInteger, t.c]$Term, highp)
+       highp := cons([unwrap subtractIfCan(t.k, n), t.c]$Term, highp)
      [ reverse highp,  lowp]
    shiftRight(p, n)  ==
-      [[subtractIfCan(t.k, n)::NonNegativeInteger, t.c]$Term for t in p]
+      [[unwrap subtractIfCan(t.k, n), t.c]$Term for t in p]
    shiftLeft(p, n)  ==
       [[t.k + n, t.c]$Term for t in p]
 
@@ -852,8 +852,8 @@ SparseUnivariatePolynomial(R : Join(SemiRng, AbelianMonoid)
            rout : Rep := []
            p2 := p2.rest
            while not(empty?(p1)) repeat
-               (u := subtractIfCan(p1.first.k, n)) case "failed" => break
-               rout := cons([u, p1.first.c], rout)
+               failed?(u := subtractIfCan(p1.first.k, n)) => break
+               rout := cons([unwrap u, p1.first.c], rout)
                p1 := fmecg(p1.rest, rout.first.k, rout.first.c, p2)
            [reverse!(rout), p1]
 
@@ -887,8 +887,8 @@ SparseUnivariatePolynomial(R : Join(SemiRng, AbelianMonoid)
        p2 := p2.rest
        rout := empty()$List(Term)
        while p1 ~= 0 repeat
-          (u := subtractIfCan(p1.first.k, n)) case "failed" => break
-          rout := cons([u, ct * p1.first.c], rout)
+          failed?(u := subtractIfCan(p1.first.k, n)) => break
+          rout := cons([unwrap u, ct * p1.first.c], rout)
           p1 := fmecg(p1.rest, rout.first.k, rout.first.c, p2)
        [reverse!(rout), p1]
 
@@ -1304,7 +1304,7 @@ UnivariatePolynomialMultiplicationPackage(R : Ring, U : UnivariatePolynomialCate
         if not zero? db then b := shiftRight(b, db)
         d := da + db
         n : NonNegativeInteger := min(degree(a), degree(b)) quo 2
-        k := subtractIfCan(k, 1)::NonNegativeInteger
+        k := unwrap subtractIfCan(k, 1)
         rec : HL := karatsubaDivide(a, n)
         ha := rec.quotient
         la := rec.remainder

@@ -97,8 +97,8 @@ GroebnerInternalPackage(Dom, Expon, VarSet, Dpol) : T == C where
    makeCrit(sp1, p2, totdeg2) ==
      p1 := sp1.pol
      deg := sup(degree(p1), degree(p2))
-     e1 := subtractIfCan(deg, degree(p1))::Expon
-     e2 := subtractIfCan(deg, degree(p2))::Expon
+     e1 := unwrap subtractIfCan(deg, degree(p1))
+     e2 := unwrap subtractIfCan(deg, degree(p2))
      tdeg := max(sp1.totdeg + virtualDegree(monomial(1, e1)),
                  totdeg2 + virtualDegree(monomial(1, e2)))
      [deg, tdeg, p1, p2]$critPair
@@ -241,8 +241,8 @@ GroebnerInternalPackage(Dom, Expon, VarSet, Dpol) : T == C where
       fi := p.poli
       fj := p.polj
       cc := gcdCo(leadingCoefficient fi, leadingCoefficient fj)
-      reductum(fi)*monomial(cc.co2, subtractIfCan(Tij, degree fi)::Expon) -
-        reductum(fj)*monomial(cc.co1, subtractIfCan(Tij, degree fj)::Expon)
+      reductum(fi)*monomial(cc.co2, unwrap subtractIfCan(Tij, degree fi)) -
+        reductum(fj)*monomial(cc.co1, unwrap subtractIfCan(Tij, degree fj))
 
             ----------------------------
 
@@ -255,10 +255,9 @@ GroebnerInternalPackage(Dom, Expon, VarSet, Dpol) : T == C where
       while not(s = 0 or empty?(F)) repeat
         f1 := first(F)
         s1 := degree(s)
-        e : Union(Expon, "failed")
-        (e := subtractIfCan(s1, degree(f1))) case Expon  =>
+        wrap?(e := subtractIfCan(s1, degree(f1)))  =>
            cc := gcdCo(leadingCoefficient f1, leadingCoefficient s)
-           s := cc.co1*reductum(s) - monomial(cc.co2, e)*reductum(f1)
+           s := cc.co1*reductum(s) - monomial(cc.co2, unwrap e)*reductum(f1)
            m := m*cc.co1
            F := Fh
         F := rest F
@@ -277,8 +276,7 @@ GroebnerInternalPackage(Dom, Expon, VarSet, Dpol) : T == C where
             --- crit M - true, if lcm#2 multiple of lcm#1
 
    critM(e1 : Expon, e2 : Expon) ==
-         en : Union(Expon, "failed")
-         (en := subtractIfCan(e2, e1)) case Expon
+         wrap? subtractIfCan(e2, e1)
 
             ----------------------------
 

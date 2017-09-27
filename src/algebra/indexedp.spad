@@ -320,15 +320,15 @@ IndexedDirectProductObject(A : SetCategory, S : Comparable
 
        if A has CancellationAbelianMonoid then
            subtractIfCan(x, y) ==
-               empty?(y) => x
+               empty?(y) => wrap x
                endcell : Rep := empty()
                res :  Rep := empty()
                while not empty? x and not empty? y repeat
                    newcell := empty()
                    if x.first.k = y.first.k then
                        ru := subtractIfCan(x.first.c, y.first.c)
-                       ru case "failed" => return "failed"
-                       r := ru::A
+                       failed? ru => return failed()
+                       r := unwrap ru
                        if not zero? r then
                            newcell := cons([x.first.k, r], empty())
                        x := rest x
@@ -338,8 +338,8 @@ IndexedDirectProductObject(A : SetCategory, S : Comparable
                        x := rest x
                    else
                        ru := subtractIfCan(0$A, y.first.c)
-                       ru case "failed" => return "failed"
-                       r := ru::A
+                       failed? ru => return failed()
+                       r := unwrap ru
                        newcell := cons([y.first.k, r], empty())
                        y := rest y
                    if not empty? newcell then
@@ -352,8 +352,8 @@ IndexedDirectProductObject(A : SetCategory, S : Comparable
                empty? x =>
                    while not empty? y repeat
                        ru := subtractIfCan(0$A, y.first.c)
-                       ru case "failed" => return "failed"
-                       r := ru::A
+                       failed? ru => return failed()
+                       r := unwrap ru
                        newcell := cons([y.first.k, r], empty())
                        y := rest y
                        if not empty? endcell then
@@ -362,10 +362,10 @@ IndexedDirectProductObject(A : SetCategory, S : Comparable
                        else
                            res     := newcell
                            endcell := res
-                   res::%
+                   wrap res
                if empty? res then res := x
                else qsetrest!(endcell, x)
-               res::%
+               wrap res
 
        if A has OrderedAbelianMonoid then
 

@@ -109,8 +109,8 @@ NGroebnerPackage(Dom, Expon, VarSet, Dpol) : T == C where
    makeCrit(sp1, p2, totdeg2) ==
      p1 := sp1.pol
      deg := sup(degree(p1), degree(p2))
-     e1 := subtractIfCan(deg, degree(p1))::Expon
-     e2 := subtractIfCan(deg, degree(p2))::Expon
+     e1 := unwrap subtractIfCan(deg, degree(p1))
+     e2 := unwrap subtractIfCan(deg, degree(p2))
      tdeg := max(sp1.totdeg + virtualDegree(monomial(1, e1)),
                  totdeg2 + virtualDegree(monomial(1, e2)))
      [deg, tdeg, p1, p2]$critPair
@@ -170,8 +170,8 @@ NGroebnerPackage(Dom, Expon, VarSet, Dpol) : T == C where
       Tij := p.lcmfij
       fi := p.poli
       fj := p.polj
-      fi := monomial(1, subtractIfCan(Tij, degree fi)::Expon)*fi
-      fj := monomial(1, subtractIfCan(Tij, degree fj)::Expon)*fj
+      fi := monomial(1, unwrap subtractIfCan(Tij, degree fi))*fi
+      fj := monomial(1, unwrap subtractIfCan(Tij, degree fj))*fj
       cc := lcmCo(leadingCoefficient fi, leadingCoefficient fj)
       cc.co1*fi - cc.co2*fj
 
@@ -181,10 +181,9 @@ NGroebnerPackage(Dom, Expon, VarSet, Dpol) : T == C where
       while not(s = 0 or empty?(F)) repeat
         f1 := first(F)
         s1 := degree(s)
-        e : Union(Expon, "failed")
         d1 := degree(f1)
-        (e := subtractIfCan(s1, d1)) case Expon  =>
-           f2 := monomial(1, e)*f1
+        wrap?(e := subtractIfCan(s1, d1)) =>
+           f2 := monomial(1, unwrap e)*f1
            cc := lcmCo(leadingCoefficient s, leadingCoefficient f2)
            s := cc.co1*s - cc.co2*f2
            if degree(s) = s1 then
@@ -233,8 +232,7 @@ NGroebnerPackage(Dom, Expon, VarSet, Dpol) : T == C where
             --- crit M - true, if lexp#2 multiple of lexp#1
 
    critM(e1 : Expon, e2 : Expon) ==
-         en : Union(Expon, "failed")
-         (en := subtractIfCan(e2, e1)) case Expon
+         wrap?(en := subtractIfCan(e2, e1))
 
    --- concat F and h and erase polys in F with lexp
    --- beeing multiple of lexp h

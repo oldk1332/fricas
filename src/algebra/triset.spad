@@ -468,7 +468,7 @@ TriangularSetCategory(R : IntegralDomain, E : OrderedAbelianMonoidSup, _
        coHeight ts ==
          n := size()$V
          m := #(members ts)
-         subtractIfCan(n, m)$NonNegativeInteger::NonNegativeInteger
+         unwrap(subtractIfCan(n, m)$NonNegativeInteger)
 
 
 )abbrev domain GTSET GeneralTriangularSet

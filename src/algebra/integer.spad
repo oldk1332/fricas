@@ -225,8 +225,8 @@ NonNegativeInteger : Join(OrderedAbelianMonoidSup, SemiRing,
 
       subtractIfCan(x, y) ==
         c : Integer := (x pretend Integer) - (y pretend Integer)
-        c < 0 => "failed"
-        c pretend %
+        c < 0 => failed()
+        wrap(c pretend %)
 
 
 )abbrev domain PI PositiveInteger

@@ -81,10 +81,10 @@ Product (A : SetCategory, B : SetCategory) : C == T
 
        if A has CancellationAbelianMonoid and
           B has CancellationAbelianMonoid then
-            subtractIfCan(x, y) : Union(%,"failed") ==
-              (na:= subtractIfCan(x.acomp, y.acomp)) case "failed" => "failed"
-              (nb:= subtractIfCan(x.bcomp, y.bcomp)) case "failed" => "failed"
-              [na::A, nb::B]
+            subtractIfCan(x, y) : Maybe % ==
+                failed?(na := subtractIfCan(x.acomp, y.acomp)) => failed()
+                failed?(nb := subtractIfCan(x.bcomp, y.bcomp)) => failed()
+                wrap [unwrap na, unwrap nb]
 
        if A has AbelianGroup and B has AbelianGroup then
           - x == [- x.acomp, -x.bcomp]

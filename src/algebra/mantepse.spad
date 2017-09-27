@@ -2087,8 +2087,8 @@ the size of the part is interpreted as derivative, the exponent as power.
         n := # partitions
         for p in partitions for i in 1..n repeat
              r := subtractIfCan(partition, p)
-             if r case Partition then
-                 j := position(r, partitions)
+             if wrap? r then
+                 j := position(unwrap r, partitions)
                  if j > 0 then return [i, j]
         "failed"
 

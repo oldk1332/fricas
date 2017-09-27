@@ -1161,7 +1161,7 @@ GroupPresentation() : Exports == Impl where
        if np < 1 then return ct::OutputForm
        if nrows(ct) > np then
            part1 : NNI := np
-           part2 : NNI := subtractIfCan(nrows(ct),np) :: NNI
+           part2 : NNI := unwrap subtractIfCan(nrows(ct), np)
            cts : List(A2D) := vertSplit(ct,[part1,part2])
            ct := cts.1
            --return ct::OutputForm << cts.2
@@ -1414,7 +1414,7 @@ GroupPresentation() : Exports == Impl where
            relatorTrim := relator
            if nrows(relatorTrim) > np then
                part1 : NNI := np
-               part2 : NNI := subtractIfCan(nrows(relatorTrim),np) :: NNI
+               part2 : NNI := unwrap subtractIfCan(nrows(relatorTrim), np)
                cts : List(A2D) := vertSplit(relatorTrim,[part1,part2])
                relatorTrim := cts.1
            relators := concat(relators,relatorTrim)

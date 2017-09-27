@@ -237,12 +237,12 @@ RegularTriangularSetCategory(R : GcdDomain, E : OrderedAbelianMonoidSup, _
          for p in lp repeat
            v : V := mvar(p)
            (i = (lookup(v)$V)::NNI) =>
-             i := subtractIfCan(i, 1)::NNI
+             i := unwrap subtractIfCan(i, 1)
            univariate?(p)$pack =>
-             i := subtractIfCan(i, 1)::NNI
+             i := unwrap subtractIfCan(i, 1)
            not algebraicCoefficients?(p, collectUnder(ts, v)) =>
              return false
-           i := subtractIfCan(i, 1)::NNI
+           i := unwrap subtractIfCan(i, 1)
          true
 
      else

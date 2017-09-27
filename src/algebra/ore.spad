@@ -409,10 +409,10 @@ UnivariateSkewPolynomialCategoryOps(R, C) : Exports == Implementation where
           times2(degree x, x, y, sigma, delta).prod
 
         times2(n, x, y, sigma, delta) ==
-            (u := subtractIfCan(n, 1)) case "failed" =>
+            failed?(u := subtractIfCan(n, 1)) =>
                 zero? x => [0, y]
                 [leadingCoefficient(x)*y, y]
-            n1 := u::N
+            n1 := unwrap u
             x1 :=
                 n = degree x => reductum x
                 x
@@ -440,9 +440,9 @@ UnivariateSkewPolynomialCategoryOps(R, C) : Exports == Implementation where
         localLeftDivide(a, b, sigma, b1) ==
             zero? b => error "leftDivide: division by 0"
             zero? a or
-             (n := subtractIfCan(degree(a),(m := degree b))) case "failed" =>
+                failed?(n := subtractIfCan(degree(a), (m := degree b))) =>
                     [0, a]
-            q  := monomial((sigma^(-m))(b1 * leadingCoefficient a), n::N)
+            q  := monomial((sigma^(-m))(b1 * leadingCoefficient a), unwrap n)
             a1 := reductum(a) - reductum(b * q)
             qr := localLeftDivide(a1, b, sigma, b1)
             [q + qr.quotient, qr.remainder]
@@ -452,9 +452,9 @@ UnivariateSkewPolynomialCategoryOps(R, C) : Exports == Implementation where
         localRightDivide(a, b, sigma, b1) ==
             zero? b => error "rightDivide: division by 0"
             zero? a or
-              (n := subtractIfCan(degree(a),(m := degree b))) case "failed" =>
+                failed?(n := subtractIfCan(degree(a), (m := degree b))) =>
                     [0, a]
-            q := monomial(leadingCoefficient(a) * (sigma^n) b1, n::N)
+            q := monomial(leadingCoefficient(a) * (sigma^(unwrap n)) b1, unwrap n)
             a1 := reductum(a) - reductum(q * b)
             qr := localRightDivide(a1, b, sigma, b1)
             [q + qr.quotient, qr.remainder]

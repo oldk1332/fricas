@@ -784,9 +784,9 @@ Poset(S) : Category == Definition where
           arrows := []$List(List(Boolean))
           for a in getArr(s) repeat
               width : NNI := #a
-              padding : Union(NNI, "failed") := subtractIfCan(dim, width)
-              if padding ~= "failed" then
-                  diff : NNI := padding::NNI
+              padding := subtractIfCan(dim, width)
+              if wrap? padding then
+                  diff : NNI := unwrap padding
                   --print(("addObject diff=", string(diff))$String)])
                   for x in 1..diff repeat
                       a := concat(a, false)
@@ -841,9 +841,9 @@ Poset(S) : Category == Definition where
           arrows := []$List(List(Boolean))
           for a in getArr(s) repeat
               width : NNI := #a
-              padding : Union(NNI, "failed") := subtractIfCan(dim, width)
-              if padding ~= "failed" then
-                  diff : NNI := padding::NNI
+              padding := subtractIfCan(dim, width)
+              if wrap? padding then
+                  diff : NNI := unwrap padding
                   --print("addObject! diff="::Symbol << string(diff))
                   for x in 1..diff repeat
                       a := concat(a, false)

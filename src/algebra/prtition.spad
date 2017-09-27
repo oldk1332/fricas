@@ -14,7 +14,6 @@ Partition : Exports == Implementation where
   I   ==> Integer
   OUT ==> OutputForm
   NNI ==> NonNegativeInteger
-  UN  ==> Union(%,"failed")
 
   Exports ==> Join(OrderedCancellationAbelianMonoid,
                    ConvertibleTo List Integer) with
@@ -65,7 +64,7 @@ Partition : Exports == Implementation where
       empty? y => x
       first x > first y => concat(first x, rest(x) + y)
       concat(first y, x + rest(y))
-    n : NNI * x : % == (zero? n => 0; x + (subtractIfCan(n, 1) :: NNI) * x)
+    n : NNI * x : % == (zero? n => 0; x + unwrap(subtractIfCan(n, 1)) * x)
 
     dp : (I, %) -> %
     dp(i, x) ==
@@ -73,17 +72,16 @@ Partition : Exports == Implementation where
       first x = i => rest x
       concat(first x, dp(i, rest x))
 
-    remv : (I, %) -> UN
-    remv(i,x) == (member?(i,x) => dp(i,x); "failed")
+    remv : (I, %) -> Maybe %
+    remv(i,x) == (member?(i,x) => wrap dp(i,x); failed())
 
     subtractIfCan(x, y) ==
       empty? x =>
-        empty? y => 0
-        "failed"
-      empty? y => x
-      (aa := remv(first y,x)) case "failed" => "failed"
-      subtractIfCan((aa :: %), rest y)
-
+        empty? y => wrap 0
+        failed()
+      empty? y => wrap x
+      failed?(aa := remv(first y,x)) => failed()
+      subtractIfCan(unwrap aa, rest y)
     li1 : L I  --!! 'bite' won't compile without this
     bite : (I, L I) -> L I
     bite(i, li) ==

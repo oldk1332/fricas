@@ -33,7 +33,7 @@ SimpleAlgebraicExtension(R : CommutativeRing,
 
     M   := r::R * M
     d   := degree M
-    d1  := subtractIfCan(d, 1)::NonNegativeInteger
+    d1  := unwrap subtractIfCan(d, 1)
     discmat : Matrix(R) := zero(d, d)
     nodiscmat? : Reference(Boolean) := ref true
     disc : Reference(R) := ref 0

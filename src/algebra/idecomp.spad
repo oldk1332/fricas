@@ -282,8 +282,8 @@ IdealDecompositionPackage(vl) : C == T
        element?(1, J) => true
        Jd := generators(groebner J)
        #(factors factor Jd.last) ~= 1 => return false
-       i := subtractIfCan(#truelist, 1)
-       (i case "failed") => return true
+       empty? truelist => true
+       i := unwrap subtractIfCan(#truelist, 1)
        JR := (reverse Jd);JM := groebnerIdeal([JR.first]);JP : List(DPoly) := []
        for f in JR.rest repeat
          if not ismonic(f, truelist.i) then
